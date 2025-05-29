@@ -1,0 +1,210 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<style>
+@import
+	url('https://fonts.googleapis.com/css2?family=Enriqueta:wght@400;500;600;700&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Share+Tech&display=swap')
+	;
+</style>
+<meta charset="UTF-8">
+<title>Contact List</title>
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+	crossorigin="anonymous">
+<link id="light-theme" rel="stylesheet"
+	th:href="@{/css/list.css}">
+<link id="dark-theme" rel="stylesheet"
+	th:href="@{/css/dark-list.css}">
+
+
+</head>
+<body class="body ">
+<div class = "container-fluid" > 
+	<nav class="navbar  navbar-expand-lg ">
+		<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+			data-bs-target="#navbarTogglerDemo03"
+			aria-controls="navbarTogglerDemo03" aria-expanded="false"
+			aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<a class="navbar-brand" href="/contacts">Contact Manager</a>
+
+		<div class="collapse navbar-collapse justify-content-between flex-wrap " id="navbarTogglerDemo03">
+			<ul class="navbar-nav ms-auto ">
+				<li class="nav-item active"><a class="nav-link"
+					href="/contacts">Home <span class="sr-only"></span></a></li>
+				<li class="nav-item"><a class="nav-link" href="/add">Add
+						Contact</a></li>
+
+			</ul>
+			<form class="search-form d-flex align-items-center mt-2 mt-lg-0 " method="get" action="/search">
+				<div class="search-wrapper">
+					<i class="bi bi-search search-icon"> </i> <input
+						class="form-control search-input" type="search" name="query"
+						placeholder="Search" aria-label="Search">
+				</div>
+				<button class="btn btn-outline-success me-2" type="submit">Search</button>
+				<a href="/contacts" class="btn btn-outline-secondary">Reset</a>
+			</form>
+			<button id="themeToggle" class="btn btn-custom ms-lg-2 mt-2 mt-lg-0 ">
+				<i id="themeIcon" class="bi bi-moon-fill me-2"></i>
+
+			</button>
+
+
+		</div>
+		
+	</nav>
+	</div>
+	<div class="alert alert-success alert-dismissible fade show"
+		id="toast-alert" role="alert" th:if="${message}"
+		style="position: fixed; top: 107px; left: 50%; z-index: 1050; min-width: 300px; max-width: 500px; transform: translateX(-50%);">
+		<span th:text="${message}"></span>
+
+		<button type="button" class="btn-close " data-bs-dismiss="alert"
+			aria-label="Close"></button>
+	</div>
+	<div class="mt-5 ms-5 " th:if="${query != null }">
+		<h4 class="text-muted">
+			Search results for "<strong th:text="${query}"></strong>"
+		</h4>
+	</div>
+
+	<div class="container mt-5">
+
+
+
+		<h2
+			th:text="${#lists.isEmpty(contacts)} ? 'No results found' : 'Contact List' ">
+		</h2>
+
+
+		<table class="table table-hover">
+			<thead>
+				<tr>
+					<th scope="col"></th>
+					<th scope="col">Name</th>
+					<th scope="col">Phone</th>
+					<th scope="col">Address</th>
+					<th scope="col">Email</th>
+					<th scope="col"></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="contact, iterStat : ${contacts}">
+					<td th:text="${iterStat.index + 1}"></td>
+					<td  style = "max-width:200px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; " th:text="${contact.name}"></td>
+					<td th:text="${contact.phone}"></td>
+					<td th:text="${contact.address}"></td>
+					<td th:text="${contact.email}"></td>
+
+					<td>
+						<div class="dropdown">
+							<button class="btn btn-sm btn-light" type="button"
+								id="dropdownMenuButton" data-bs-toggle="dropdown"
+								aria-expanded="false">
+								<i class="bi bi-three-dots-vertical text-dark"></i>
+							</button>
+							<ul class="dropdown-menu dropdown-menu-left "
+								aria-labelledby="dropdownMenuButton">
+								<li><a class="dropdown-item"
+									th:href="@{/edit/{id}(id=${contact.id})}">Edit</a></li>
+								<li><a class="dropdown-item text-danger"
+									href = "#"
+									th:onclick="'confirmDelete(\'/delete/' + ${contact.id} + '\')'"
+									>Delete</a>
+								</li>
+							</ul>
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<script>
+    const toggleButton = document.getElementById('themeToggle');
+    const themeIcon = document.getElementById('themeIcon');
+    const lightTheme = document.getElementById('light-theme');
+    const darkTheme = document.getElementById('dark-theme');
+    
+   function applyTheme(theme){
+    if(theme === 'dark'){
+      lightTheme.disabled = true;
+      darkTheme.disabled = false;
+      themeIcon.className = "bi bi-sun-fill fs-5 me-2";
+     
+    } else {
+       lightTheme.disabled = false;
+       darkTheme.disabled  = true;
+       themeIcon.className = "bi bi-moon-stars-fill me-2";
+       
+    }
+    localStorage.setItem('theme', theme);
+   }
+   const savedTheme = localStorage.getItem('theme') || 'light' ;
+   applyTheme(savedTheme);
+   
+  toggleButton.addEventListener( 'click' , () =>{
+  const newTheme = darkTheme.disabled ? 'dark' : 'light' ;
+  applyTheme(newTheme);
+  } );
+
+  </script>
+  
+  <!--  function to hide toggle when navbar collapses 
+  <script>
+    const navbarCollapse = document.getElementById('navbarTogglerDemo03');
+    const themeToggle = document.getElementById('themeToggle');
+    
+    navbarCollapse.addEventListener( 'show.bs.collapse' , () => {
+    themeToggle.style.display = 'none' ;
+    });
+    
+    navbarCollapse.addEventListener( 'hide.bs.collapse' , () => {
+     themeToggle.style.display = '' ;
+    });
+  </script>
+  -->
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+	<!-- Bootstrap Icons (for icons) -->
+	
+	
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteModalLabel">Confirm Deletion</h5>
+        <button type="button" class="btn-close " data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to delete this contact?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <a id="confirmDeleteBtn" href="#" class="btn btn-danger">Delete</a>
+      </div>
+    </div>
+  </div>
+</div>
+  
+<script>
+  function confirmDelete(deleteUrl) {
+    const confirmBtn = document.getElementById('confirmDeleteBtn');
+    confirmBtn.setAttribute('href', deleteUrl);
+    const modal = new bootstrap.Modal(document.getElementById('deleteModal'));
+    modal.show();
+  }
+</script>
+
+</body>
+</html>
+

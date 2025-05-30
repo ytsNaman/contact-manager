@@ -7,6 +7,7 @@
 	padding-top: 1rem;
 	line-height: 1.6;
 	font-family: "Montserrat", sans-serif;
+	 overflow-y: scroll;
 }
 /* navbar */
 .navbar {
@@ -15,9 +16,10 @@
 	padding: 0.8rem 2rem;
 	box-shadow: 0px 8px 10px #222c38;
 	border-radius: 0.5rem;
-	border-top: 1px solid #c1fff5;
-	border-bottom: 2px solid #c1fff5;
+	 border-top: 1px solid #c1fff5;
+	border-bottom: 2px solid #c1fff5; 
 	backdrop-filter: blur(6px);
+	line-height:1.5;
 }
 
 .navbar-brand {

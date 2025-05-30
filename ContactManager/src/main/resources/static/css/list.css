@@ -9,6 +9,7 @@
 	padding-top: 1rem;
 	line-height: 1.6;
 	font-family: "Montserrat", sans-serif;
+	height:77.98;
 }
 /* navbar */
 .navbar {
@@ -271,6 +272,10 @@ h2 {
 
 .dropdown-item:hover {
 	background-color: #f6f5f4;
+}
+
+.dropdown-item:focus {
+	background-color: #000000;
 }
 
 .container, .table {

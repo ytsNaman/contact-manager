@@ -12,29 +12,26 @@
 
 /* Navbar */
 .navbar {
-	
-	 background-color: #12151c; 
-	color:#ffffff;
+	background-color: #12151c;
 	backdrop-filter: blur(6px);
-	box-shadow: 0 4px 6px rgba(57, 255, 255, 0.1);
+	box-shadow: 0 8px 12px rgba(57, 255, 255, 0.2); 
 	border-radius: 0.5rem;
 	padding: 0.8rem 2rem;
-	border: 2px solid rgba(255, 255, 255, 0.07);
-	 box-sizing: border-box;
-	line-height:1.5;
+    border: 2px solid rgba(255, 255, 255, 0.07); 
+	
 }
 
 .navbar-brand {
 	font-size: 1.5rem;
 	font-weight: 700;
-	color: #b9f0ff;
+	color: #00f7ff;
 	letter-spacing: -0.5px;
 }
 
-.navbar-brand:hover{
-	color:#00f7ff;
-}
 
+.navbar-brand:hover {
+	color: #a2fdee;
+}
 .navbar-nav .nav-link {
 	color: #c0bfbc;
 	font-weight: 600;
